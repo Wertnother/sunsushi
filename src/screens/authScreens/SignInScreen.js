@@ -1,5 +1,13 @@
 import React, { useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import Header from "../../components/Header";
 import { colors, parameters, title } from "../../global/styles";
 import {
@@ -9,32 +17,55 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import Button from "../../components/Button";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../../../firebase-config";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SignInScreen({ navigation }) {
-  const [textInputPasswordFocussed, setTextInputPasswordFocussed] =
-    useState(false);
   const textInput1 = useRef(1);
   const textInput2 = useRef(2);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log("Signed in");
+        const user = userCredential.user;
+        console.log(user);
+        navigation.navigate("DrawerNavigator");
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert(error.message);
+      });
+  };
 
   return (
     <View style={styles.container}>
       <Header
-        title="MY ACCOUNT"
+        title="МІЙ АККАУНТ"
         type={"arrow-back-outline"}
         navigation={navigation}
       />
 
-      <View style={{ marginLeft: 20, marginTop: 10 }}>
-        <Text style={title}>Sign-In</Text>
+      <View style={styles.signInTitleContainer}>
+        <Text style={title}>Вхід в систему</Text>
       </View>
 
-      <View style={{ alignItems: "center", marginTop: 10 }}>
-        <Text style={styles.text1}>Plese enter the email and pasword</Text>
-        <Text style={styles.text1}>registered with your acount</Text>
+      <View style={styles.signInDescriptionContainer}>
+        <Text style={styles.text1}>
+          Будь ласка, введіть електронну пошту та пароль зареєстровані у вашому
+          обліковому записі
+        </Text>
       </View>
 
-      <View style={{ marginTop: 20 }}>
-        <View style={styles.TextInputLogin}>
+      <View style={styles.signInFormContainer}>
+        <View style={styles.textInputLogin}>
           <View>
             <MaterialCommunityIcons
               name="email-outline"
@@ -46,6 +77,7 @@ export default function SignInScreen({ navigation }) {
             style={{ width: "90%" }}
             placeholder="Email"
             ref={textInput1}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
 
@@ -61,12 +93,7 @@ export default function SignInScreen({ navigation }) {
             style={{ width: "80%" }}
             placeholder="Password"
             ref={textInput2}
-            onFocus={() => {
-              setTextInputPasswordFocussed(false);
-            }}
-            onBlur={() => {
-              setTextInputPasswordFocussed(true);
-            }}
+            onChangeText={(text) => setPassword(text)}
           />
           <View style={{ marginRight: 10 }}>
             <MaterialIcons
@@ -78,54 +105,46 @@ export default function SignInScreen({ navigation }) {
         </View>
       </View>
 
-      <View style={{ marginHorizontal: 20, marginTop: 20 }}>
-        <Button
-          title={"SING IN"}
-          onPress={() => {
-            navigation.navigate("DrawerNavigator");
-          }}
-        />
+      <View style={styles.buttonContainer}>
+        <Button title={"УВІЙТИ"} onPress={handleSignIn} />
       </View>
 
-      <View style={{ alignItems: "center", marginTop: 15 }}>
-        <Text style={{ ...styles.text1, textDecorationLine: "underline" }}>
-          Forgot a pasword?
-        </Text>
+      <View style={styles.forgotPasswordContainer}>
+        <Text style={styles.forgotPasswordText}>Забули пароль?</Text>
       </View>
 
-      <View style={{ alignItems: "center", marginVertical: 30 }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>OR</Text>
+      <View style={styles.orContainer}>
+        <Text style={styles.orText}>OR</Text>
       </View>
 
-      <View style={{ marginHorizontal: 20, marginTop: 10 }}>
+      <View style={styles.socialButtonsContainer}>
         <FontAwesome.Button
           name="facebook"
           style={styles.SocialIcon}
           backgroundColor="#3b5998"
         >
-          Login with Facebook
+          Увійти за допомогою Facebook
         </FontAwesome.Button>
       </View>
-
-      <View style={{ marginHorizontal: 20, marginTop: 10 }}>
+      <View style={styles.socialButtonsContainer}>
         <FontAwesome.Button
           name="google"
           style={styles.SocialIcon}
           backgroundColor="red"
         >
-          Login with Google
+          Увійти за допомогою Google
         </FontAwesome.Button>
       </View>
 
-      <View style={{ marginLeft: 20, marginTop: 15 }}>
-        <Text style={{ ...styles.text1 }}>New on SunSushi?</Text>
-      </View>
-
-      <View
-        style={{ alignItems: "flex-end", marginHorizontal: 20, marginTop: 10 }}
-      >
-        <Pressable style={styles.createButton}>
-          <Text style={styles.createButtonTitle}>Create an account</Text>
+      <View style={styles.createAccountContainer}>
+        <Text style={styles.createAccountText}>Вперше в SunSushi?</Text>
+        <Pressable
+          style={styles.createAccountButton}
+          onPress={() => navigation.navigate("SignUpScreen")}
+        >
+          <Text style={styles.createAccountButtonText}>
+            Створити обліковий запис
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -137,12 +156,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  signInTitleContainer: { marginLeft: 20, marginTop: 10 },
+
   text1: {
+    textAlign: "center",
     color: colors.grey3,
     fontSize: 16,
   },
 
-  TextInputLogin: {
+  signInDescriptionContainer: { alignItems: "center", marginTop: 10 },
+
+  signInFormContainer: { marginTop: 20 },
+
+  textInputLogin: {
     borderWidth: 1,
     borderColor: "#86939e",
     marginHorizontal: 20,
@@ -170,26 +196,54 @@ const styles = StyleSheet.create({
   },
 
   SocialIcon: {
-    borderRadius: 12,
+    borderRadius: 15,
     height: 50,
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",
   },
 
-  createButton: {
-    backgroundColor: "white",
-    alignContent: "center",
-    justifyContent: "center",
+  buttonContainer: { marginHorizontal: 20, marginTop: 20 },
+
+  forgotPasswordContainer: { alignItems: "center", marginTop: 15 },
+
+  forgotPasswordText: {
+    color: colors.grey3,
+    fontSize: 16,
+    textDecorationLine: "underline",
+  },
+
+  orContainer: { alignItems: "center", marginVertical: 30 },
+
+  orText: { fontSize: 20, fontWeight: "bold" },
+
+  socialButtonsContainer: { marginHorizontal: 20, marginTop: 10 },
+
+  createAccountContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+    marginHorizontal: 20,
+  },
+
+  createAccountText: {
+    flex: 3,
+    fontSize: 16,
+    color: colors.grey3,
+  },
+
+  createAccountButton: {
+    justifyContent: "flex-end",
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#ff8c52",
+    borderColor: colors.main,
     height: 40,
+    paddingVertical: 10,
     paddingHorizontal: 20,
   },
 
-  createButtonTitle: {
-    color: "#ff8c52",
+  createAccountButtonText: {
+    color: colors.main,
     fontSize: 16,
     fontWeight: "bold",
     alignItems: "center",

@@ -12,53 +12,40 @@ export default function FoodCard({
   screenWidth,
 }) {
   return (
-    <TouchableOpacity>
-      <View style={{ ...styles.cardView, width: screenWidth }}>
-        <Image
-          style={{ ...styles.image, width: "100%" }}
-          source={{ uri: image }}
-        />
+    <View style={{ ...styles.card, width: screenWidth }}>
+      <Image style={styles.image} source={{ uri: image }} />
 
-        <View>
-          <Text style={styles.nameText}>{name}</Text>
+      <View>
+        <Text style={styles.name}>{name}</Text>
+      </View>
+
+      <View style={styles.ingredients}>
+        <Text style={styles.ingredientsText}>{ingredients}</Text>
+      </View>
+
+      <View style={styles.footer}>
+        <View style={styles.price}>
+          <Text style={styles.priceText}>{price}</Text>
         </View>
-
-        <View style={styles.ingredientsView}>
-          <Text style={styles.ingredientsText}>{ingredients}</Text>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-          }}
-        >
-          <View
-            style={{ flex: 4, justifyContent: "center", alignItems: "center" }}
-          >
-            <Text style={styles.priceText}>{price}</Text>
-          </View>
-          <View style={{ flex: 6, justifyContent: "center" }}>
-            <Button
-              icon={
-                <Ionicons
-                  name="cart-outline"
-                  size={24}
-                  color={colors.cardbackground}
-                  style={{ marginHorizontal: 10 }}
-                />
-              }
-              title="В кошик"
-            />
-          </View>
+        <View style={styles.button}>
+          <Button
+            icon={
+              <Ionicons
+                name="cart-outline"
+                size={24}
+                color={colors.cardbackground}
+              />
+            }
+            title="В кошик"
+          />
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  cardView: {
+  card: {
     borderColor: colors.grey4,
     borderRadius: 15,
     backgroundColor: "white",
@@ -72,12 +59,34 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 5,
     height: 235,
+    width: "100%",
   },
-  nameText: {
+  name: {
     fontSize: 18,
     fontWeight: "bold",
   },
-  ingredientsView: { marginTop: 10 },
-  ingredientsText: { fontSize: 15, color: colors.grey2 },
-  priceText: { fontSize: 28, fontWeight: "bold" },
+  ingredients: {
+    marginTop: 10,
+  },
+  ingredientsText: {
+    fontSize: 15,
+    color: colors.grey2,
+  },
+  footer: {
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  price: {
+    flex: 4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  priceText: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  button: {
+    flex: 6,
+    justifyContent: "center",
+  },
 });

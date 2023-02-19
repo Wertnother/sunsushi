@@ -1,65 +1,52 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { colors, parameters } from "../global/styles";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { withBadge } from "@rneui/themed";
+import { colors, parameters } from "../global/styles";
 
 export default function HomeHeader({ navigation }) {
   const BadgeIcon = withBadge(0)(Ionicons);
 
+  const handleDrawerToggle = () => {
+    navigation.toggleDrawer();
+  };
+
   return (
-    <View style={styles.header}>
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          marginLeft: 15,
-        }}
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={handleDrawerToggle}
+        style={styles.iconContainer}
       >
-        <Ionicons
-          name="menu-outline"
-          size={32}
-          color={colors.cardbackground}
-          onPress={() => {
-            navigation.toggleDrawer();
-          }}
-        />
-      </View>
+        <Ionicons name="menu-outline" size={32} color={colors.cardbackground} />
+      </TouchableOpacity>
 
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <Text
-          style={{
-            color: colors.cardbackground,
-            fontSize: 25,
-            fontWeight: "bold",
-          }}
-        >
-          SUNSUSHI
-        </Text>
-      </View>
+      <Text style={styles.title}>SUNSUSHI</Text>
 
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          marginRight: 15,
-        }}
-      >
+      <TouchableOpacity style={styles.iconContainer}>
         <BadgeIcon
           name="cart-outline"
           size={32}
           color={colors.cardbackground}
         />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
+  container: {
     flexDirection: "row",
     backgroundColor: colors.main,
     height: parameters.headerHeight,
     justifyContent: "space-between",
+    alignItems: "center",
+  },
+  title: {
+    color: colors.cardbackground,
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  iconContainer: {
+    paddingHorizontal: 15,
   },
 });

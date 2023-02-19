@@ -5,6 +5,7 @@ import SignInScreen from "../screens/authScreens/SignInScreen";
 import RootClientTabs from "./ClientTabs";
 import AboutUs from "../screens/AboutUs";
 import DrawerNavigator from "./DrawerNavigator";
+import SignUpScreen from "../screens/authScreens/SignUpScreen";
 
 const Auth = createNativeStackNavigator();
 
@@ -14,6 +15,8 @@ export default function AuthStack() {
       <Auth.Screen name="SignInWelconeScreen" component={SingInWelcomeScreen} />
 
       <Auth.Screen name="SignInScreen" component={SignInScreen} />
+
+      <Auth.Screen name="SignUpScreen" component={SignUpScreen} />
 
       <Auth.Screen name="DrawerNavigator" component={DrawerNavigator} />
 

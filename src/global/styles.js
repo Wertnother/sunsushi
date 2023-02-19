@@ -12,7 +12,7 @@ export const colors = {
 };
 
 export const parameters = {
-  headerHeight: 40,
+  headerHeight: 45,
 
   mainButtonStyle: {
     alignItems: "center",

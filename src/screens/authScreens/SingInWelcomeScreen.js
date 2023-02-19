@@ -61,7 +61,12 @@ export default function SingInWelcomeScreen({ navigation }) {
         </View>
 
         <View style={{ marginTop: 30 }}>
-          <Pressable style={parameters.secondButtonStyle}>
+          <Pressable
+            style={parameters.secondButtonStyle}
+            onPress={() => {
+              navigation.navigate("SignUpScreen");
+            }}
+          >
             <Text style={parameters.secondButtonTitleStyle}>
               Create an account
             </Text>

@@ -7,7 +7,6 @@ import {
   FlatList,
   Pressable,
   Image,
-  Touchable,
   TouchableOpacity,
 } from "react-native";
 import HomeHeader from "../components/HomeHeader";
@@ -56,9 +55,6 @@ export default function HomeScreen({ navigation }) {
               name="tune"
               color={colors.grey1}
               size={26}
-              onPress={() => {
-                navigation.openDrawer();
-              }}
             />
           </View>
         </View>
