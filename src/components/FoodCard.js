@@ -3,42 +3,110 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import Button from "../components/Button";
 import { colors } from "../global/styles";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, decrementQty, incrementQty } from "../reducers/CartReducer";
+import {
+  incrementQuantity,
+  decrementQuantity,
+} from "../reducers/ProductReducer";
+import { Pressable } from "react-native";
 
-export default function FoodCard({
-  name,
-  ingredients,
-  price,
-  image,
-  screenWidth,
-}) {
+export default function FoodCard({ item, screenWidth }) {
+  const cart = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
+  const addItemToCart = (item) => {
+    dispatch(addToCart(item));
+    dispatch(incrementQuantity(item));
+  };
+
   return (
     <View style={{ ...styles.card, width: screenWidth }}>
-      <Image style={styles.image} source={{ uri: image }} />
+      <Image style={styles.image} source={{ uri: item.image }} />
 
       <View>
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.name}>{item.name}</Text>
       </View>
 
       <View style={styles.ingredients}>
-        <Text style={styles.ingredientsText}>{ingredients}</Text>
+        <Text style={styles.ingredientsText}>{item.ingredients}</Text>
       </View>
 
       <View style={styles.footer}>
         <View style={styles.price}>
-          <Text style={styles.priceText}>{price}</Text>
+          <Text style={styles.priceText}>{item.price}</Text>
         </View>
-        <View style={styles.button}>
-          <Button
-            icon={
-              <Ionicons
-                name="cart-outline"
-                size={24}
-                color={colors.cardbackground}
-              />
-            }
-            title="В кошик"
-          />
-        </View>
+
+        {cart.some((value) => value.id === item.id) ? (
+          <Pressable
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "#FF3366",
+              borderRadius: 5,
+              width: 120,
+            }}
+          >
+            <Pressable
+              onPress={() => {
+                dispatch(decrementQty(item));
+                dispatch(decrementQuantity(item));
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: "white",
+                  paddingHorizontal: 10,
+                }}
+              >
+                -
+              </Text>
+            </Pressable>
+
+            <Pressable>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "white",
+                  paddingHorizontal: 10,
+                }}
+              >
+                {item.quantity}
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={() => {
+                dispatch(incrementQty(item)); // cart
+                dispatch(incrementQuantity(item)); //product
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: "white",
+                  paddingHorizontal: 10,
+                }}
+              >
+                +
+              </Text>
+            </Pressable>
+          </Pressable>
+        ) : (
+          <View style={styles.button}>
+            <Button
+              onPress={() => addItemToCart(item)}
+              icon={
+                <Ionicons
+                  name="cart-outline"
+                  size={24}
+                  color={colors.cardbackground}
+                />
+              }
+              title="В кошик"
+            />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -46,6 +114,7 @@ export default function FoodCard({
 
 const styles = StyleSheet.create({
   card: {
+    marginVertical: 10,
     borderColor: colors.grey4,
     borderRadius: 15,
     backgroundColor: "white",

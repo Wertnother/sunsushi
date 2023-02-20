@@ -22,7 +22,12 @@ export default function HomeHeader({ navigation }) {
 
       <Text style={styles.title}>SUNSUSHI</Text>
 
-      <TouchableOpacity style={styles.iconContainer}>
+      <TouchableOpacity
+        style={styles.iconContainer}
+        onPress={() => {
+          navigation.navigate("Cart");
+        }}
+      >
         <BadgeIcon
           name="cart-outline"
           size={32}

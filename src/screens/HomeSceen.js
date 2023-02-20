@@ -1,5 +1,5 @@
 import { Icon } from "@rneui/themed";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,56 +8,40 @@ import {
   Pressable,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import HomeHeader from "../components/HomeHeader";
 import { colors } from "../global/styles";
 import { filterData, sushiAndRollsCard } from "../global/Data";
 import FoodCard from "../components/FoodCard";
 import { Dimensions } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../reducers/ProductReducer";
+import AddressView from "../components/AddressView";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function HomeScreen({ navigation }) {
+  const products = useSelector((state) => state.product.product);
+  const cart = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
   const [indexCheck, setIndexCheck] = useState("0");
+
+  useEffect(() => {
+    if (products.length > 0) return;
+
+    const fetchProducts = () => {
+      sushiAndRollsCard.map((image) => dispatch(getProducts(image)));
+    };
+    fetchProducts();
+  });
 
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <HomeHeader navigation={navigation} />
 
-        <View style={styles.filterView}>
-          <View style={styles.addressView}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Icon
-                type="material-community"
-                name="map-marker"
-                color={colors.grey1}
-                size={26}
-              />
-              <Text style={{ marginLeft: 5 }}>22 Street</Text>
-            </View>
-
-            <View style={styles.clockView}>
-              <Icon
-                type="material-community"
-                name="clock-time-four"
-                color={colors.grey1}
-                size={26}
-              />
-              <Text style={{ marginLeft: 5 }}>Now</Text>
-            </View>
-          </View>
-
-          <View>
-            <Icon
-              type="material-community"
-              name="tune"
-              color={colors.grey1}
-              size={26}
-            />
-          </View>
-        </View>
+        <AddressView />
 
         <View style={styles.headerTextView}>
           <Text style={styles.headerText}>Меню</Text>
@@ -110,19 +94,12 @@ export default function HomeScreen({ navigation }) {
             alignItems: "center",
           }}
         >
-          {sushiAndRollsCard.map((item, index) => (
-            <View
+          {products.map((item, index) => (
+            <FoodCard
+              item={item}
               key={index}
-              style={{ marginTop: 10, marginBottom: 10, marginVertical: 10 }}
-            >
-              <FoodCard
-                screenWidth={SCREEN_WIDTH * 0.9}
-                image={item.image}
-                name={item.name}
-                ingredients={item.ingredients}
-                price={item.price}
-              />
-            </View>
+              screenWidth={SCREEN_WIDTH * 0.9}
+            />
           ))}
         </View>
       </ScrollView>
@@ -144,30 +121,6 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  filterView: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    marginHorizontal: 10,
-    marginVertical: 10,
-  },
-  clockView: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 20,
-    backgroundColor: colors.cardbackground,
-    borderRadius: 15,
-    paddingHorizontal: 15,
-    marginRight: 20,
-  },
-  addressView: {
-    flexDirection: "row",
-    backgroundColor: colors.grey5,
-    borderRadius: 15,
-    paddingVertical: 3,
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
   },
   headerText: {
     color: colors.grey1,

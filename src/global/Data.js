@@ -31,6 +31,7 @@ export const sushiAndRollsCard = [
     image:
       "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671746236120.jpg",
     id: "0",
+    quantity: 0,
   },
   {
     name: "Філадельфія манго лосось",
@@ -39,6 +40,7 @@ export const sushiAndRollsCard = [
     image:
       "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671714905623.jpg",
     id: "1",
+    quantity: 0,
   },
   {
     name: "Філадельфія гриль лосось ",
@@ -56,6 +58,7 @@ export const sushiAndRollsCard = [
     image:
       "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1659544644894.jpg",
     id: "3",
+    quantity: 0,
   },
   {
     name: "Філадельфія Креветка",
@@ -64,6 +67,7 @@ export const sushiAndRollsCard = [
     image:
       "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1660562111442.jpg",
     id: "4",
+    quantity: 0,
   },
 ];
 
@@ -75,6 +79,7 @@ export const setsCard = [
     price: "1195 ₴",
     image: require("../assets/sets/1.jpg"),
     id: "0",
+    quantity: 0,
   },
   {
     name: "Якудза",
@@ -83,6 +88,7 @@ export const setsCard = [
     price: "555 ₴",
     image: require("../assets/sets/2.jpg"),
     id: "1",
+    quantity: 0,
   },
   {
     name: "Атана",
@@ -91,6 +97,7 @@ export const setsCard = [
     price: "685 ₴",
     image: require("../assets/sets/3.jpg"),
     id: "2",
+    quantity: 0,
   },
   {
     name: "Гурман",
@@ -99,6 +106,7 @@ export const setsCard = [
     price: "560 ₴",
     image: require("../assets/sets/4.jpg"),
     id: "3",
+    quantity: 0,
   },
   {
     name: "Філадельфія Бум",
@@ -106,5 +114,6 @@ export const setsCard = [
     price: "495 ₴",
     image: require("../assets/sets/5.jpg"),
     id: "4",
+    quantity: 0,
   },
 ];
