@@ -3,7 +3,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { Avatar } from "@rneui/base";
+
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { colors } from "../global/styles";
@@ -23,15 +23,6 @@ export default function DrawerContent(props) {
             paddingVertical: 10,
           }}
         >
-          <Avatar
-            rounded
-            avatarStyle={styles.avatar}
-            size={75}
-            source={{
-              uri: "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671746236120.jpg",
-            }}
-          />
-
           <View style={{ marginLeft: 10 }}>
             <Text
               style={{
