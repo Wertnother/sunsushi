@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SingInWelcomeScreen from "../screens/authScreens/SingInWelcomeScreen";
 import SignInScreen from "../screens/authScreens/SignInScreen";
 import RootClientTabs from "./ClientTabs";
-import AboutUs from "../screens/AboutUs";
+import AboutUsScreen from "../screens/AboutUsScreen";
 import DrawerNavigator from "./DrawerNavigator";
 import SignUpScreen from "../screens/authScreens/SignUpScreen";
 
@@ -20,7 +20,7 @@ export default function AuthStack() {
 
       <Auth.Screen name="DrawerNavigator" component={DrawerNavigator} />
 
-      <Auth.Screen name="AboutUs" component={AboutUs} />
+      <Auth.Screen name="AboutUsScreen" component={AboutUsScreen} />
     </Auth.Navigator>
   ); // Added missing closing bracket for the return statement
 }

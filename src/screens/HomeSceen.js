@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import HomeHeader from "../components/HomeHeader";
 import { colors } from "../global/styles";
-import { filterData, sushiAndRollsCard } from "../global/Data";
+import { filterData, setsCard, sushiAndRollsCard } from "../global/Data";
 import FoodCard from "../components/FoodCard";
 import { Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,24 +23,24 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function HomeScreen({ navigation }) {
   const products = useSelector((state) => state.product.product);
-  const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
   const [indexCheck, setIndexCheck] = useState("0");
+  const [category, setCategory] = useState(sushiAndRollsCard);
 
   useEffect(() => {
-    if (products.length > 0) return;
+    if (!category) return;
 
     const fetchProducts = () => {
-      sushiAndRollsCard.map((image) => dispatch(getProducts(image)));
+      category.map((image) => dispatch(getProducts(image)));
     };
     fetchProducts();
-  });
+  }, [category, dispatch, setCategory]);
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <HomeHeader navigation={navigation} />
+      <HomeHeader navigation={navigation} />
 
+      <ScrollView showsVerticalScrollIndicator={false}>
         <AddressView />
 
         <View style={styles.headerTextView}>
@@ -57,6 +57,7 @@ export default function HomeScreen({ navigation }) {
             renderItem={({ item, index }) => (
               <Pressable
                 onPress={() => {
+                  setCategory(item.category);
                   setIndexCheck(item.id);
                 }}
               >
@@ -107,7 +108,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.floatButton}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("AboutUs");
+            navigation.navigate("AboutUsScreen");
           }}
         >
           <Icon name="place" type="material" size={32} color={colors.main} />

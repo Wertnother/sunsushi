@@ -89,7 +89,7 @@ export default function DrawerContent(props) {
           )}
         />
 
-        <View style={{ borderTopWidth: 1, borderTopColor: colors.grey5 }}>
+        {/* <View style={{ borderTopWidth: 1, borderTopColor: colors.grey5 }}>
           <Text style={styles.preferences}>Уподобання</Text>
 
           <View style={styles.switchText}>
@@ -101,7 +101,7 @@ export default function DrawerContent(props) {
               />
             </View>
           </View>
-        </View>
+        </View> */}
       </DrawerContentScrollView>
 
       <DrawerItem

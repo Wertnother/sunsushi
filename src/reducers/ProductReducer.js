@@ -7,7 +7,10 @@ export const productSlice = createSlice({
   },
   reducers: {
     getProducts: (state, action) => {
-      state.product.push({ ...action.payload });
+      return {
+        ...state,
+        product: [...state.product, action.payload],
+      };
     },
     incrementQuantity: (state, action) => {
       const itemPresent = state.product.find(

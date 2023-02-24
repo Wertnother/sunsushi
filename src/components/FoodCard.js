@@ -33,65 +33,31 @@ export default function FoodCard({ item, screenWidth }) {
 
       <View style={styles.footer}>
         <View style={styles.price}>
-          <Text style={styles.priceText}>{item.price}</Text>
+          <Text style={styles.priceText}>{item.price} ₴</Text>
         </View>
 
         {cart.some((value) => value.id === item.id) ? (
-          <Pressable
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              backgroundColor: "#FF3366",
-              borderRadius: 5,
-              width: 120,
-            }}
-          >
+          <View style={styles.quantityContainer}>
             <Pressable
               onPress={() => {
                 dispatch(decrementQty(item));
                 dispatch(decrementQuantity(item));
               }}
             >
-              <Text
-                style={{
-                  fontSize: 25,
-                  color: "white",
-                  paddingHorizontal: 10,
-                }}
-              >
-                -
-              </Text>
+              <Text style={styles.quantityButton}>-</Text>
             </Pressable>
 
-            <Pressable>
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "white",
-                  paddingHorizontal: 10,
-                }}
-              >
-                {item.quantity}
-              </Text>
-            </Pressable>
+            <Text style={styles.quantityText}>{item.quantity}</Text>
 
             <Pressable
               onPress={() => {
-                dispatch(incrementQty(item)); // cart
-                dispatch(incrementQuantity(item)); //product
+                dispatch(incrementQty(item));
+                dispatch(incrementQuantity(item));
               }}
             >
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: "white",
-                  paddingHorizontal: 10,
-                }}
-              >
-                +
-              </Text>
+              <Text style={styles.quantityButton}>+</Text>
             </Pressable>
-          </Pressable>
+          </View>
         ) : (
           <View style={styles.button}>
             <Button
@@ -154,8 +120,28 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
   },
+  quantityContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: colors.main,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    width: 120,
+  },
+  quantityButton: {
+    fontSize: 25,
+    color: "white",
+  },
+  quantityText: {
+    fontSize: 20,
+    color: "white",
+    paddingHorizontal: 10,
+  },
   button: {
     flex: 6,
     justifyContent: "center",
+    width: 120,
   },
 });

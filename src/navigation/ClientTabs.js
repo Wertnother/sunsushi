@@ -4,7 +4,7 @@ import { colors } from "../global/styles";
 import HomeScreen from "../screens/HomeSceen";
 import Shares from "../screens/Shares";
 import Cart from "../screens/Cart";
-import Settings from "../screens/Settings";
+import SettingScreen from "../screens/SettingSceen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const ClientsTabs = createBottomTabNavigator();
@@ -56,8 +56,8 @@ export default function RootClientTabs() {
       />
 
       <ClientsTabs.Screen
-        name="Settings"
-        component={Settings}
+        name="SettingScreen"
+        component={SettingScreen}
         options={{
           tabBarLabel: "Налаштування",
           tabBarIcon: ({ color, size }) => (
