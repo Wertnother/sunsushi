@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { colors } from "../global/styles";
 import HomeScreen from "../screens/HomeSceen";
 import Shares from "../screens/Shares";
-import Cart from "../screens/Cart";
+import CartScreen from "../screens/CartScreen";
 import SettingScreen from "../screens/SettingSceen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -41,8 +41,8 @@ export default function RootClientTabs() {
       />
 
       <ClientsTabs.Screen
-        name="Cart"
-        component={Cart}
+        name="CartScreen"
+        component={CartScreen}
         options={{
           tabBarLabel: "Кошик",
           tabBarIcon: ({ color, size }) => (

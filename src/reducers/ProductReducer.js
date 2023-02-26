@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAction } from "@reduxjs/toolkit";
+
+export const clearProducts = createAction("product/clearProducts");
 
 export const productSlice = createSlice({
   name: "product",
@@ -10,6 +12,12 @@ export const productSlice = createSlice({
       return {
         ...state,
         product: [...state.product, action.payload],
+      };
+    },
+    clearProducts: (state) => {
+      return {
+        ...state,
+        product: [],
       };
     },
     incrementQuantity: (state, action) => {
@@ -27,6 +35,7 @@ export const productSlice = createSlice({
           (item) => item.id !== action.payload.id
         );
         state.cart = removeFromCart;
+        itemPresent.quantity--;
       } else {
         itemPresent.quantity--;
       }

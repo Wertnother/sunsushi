@@ -1,94 +1,89 @@
-import { Icon } from "@rneui/themed";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   Pressable,
-  Image,
-  TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from "react-native";
-import HomeHeader from "../components/HomeHeader";
+import HomeHeader from "../components/Homescreen/HomeHeader";
 import { colors } from "../global/styles";
-import { filterData, setsCard, sushiAndRollsCard } from "../global/Data";
-import FoodCard from "../components/FoodCard";
-import { Dimensions } from "react-native";
+import { filterData } from "../global/Data";
+import FoodCard from "../components/Homescreen/FoodCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../reducers/ProductReducer";
-import AddressView from "../components/AddressView";
+import { getProducts, clearProducts } from "../reducers/ProductReducer";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const ITEM_HEIGHT = 460;
 
 export default function HomeScreen({ navigation }) {
+  const [indexCheck, setIndexCheck] = useState("0");
   const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
-  const [indexCheck, setIndexCheck] = useState("0");
-  const [category, setCategory] = useState(sushiAndRollsCard);
+  const scrollViewRef = useRef(null);
 
   useEffect(() => {
-    if (!category) return;
+    if (products.length > 0) return;
 
     const fetchProducts = () => {
-      category.map((image) => dispatch(getProducts(image)));
+      filterData.map((item) =>
+        item.category.map((image) => dispatch(getProducts(image)))
+      );
     };
     fetchProducts();
-  }, [category, dispatch, setCategory]);
+  }, []);
 
   return (
     <View style={styles.container}>
       <HomeHeader navigation={navigation} />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <AddressView />
+      <View style={styles.headerTextView}>
+        <Text style={styles.headerText}>Меню</Text>
+      </View>
 
-        <View style={styles.headerTextView}>
-          <Text style={styles.headerText}>Меню</Text>
-        </View>
-
-        <View>
-          <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={filterData}
-            keyExtractor={(item) => item.id}
-            extraData={indexCheck}
-            renderItem={({ item, index }) => (
-              <Pressable
-                onPress={() => {
-                  setCategory(item.category);
-                  setIndexCheck(item.id);
-                }}
+      <View>
+        <FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={filterData}
+          keyExtractor={(item) => item.id}
+          extraData={indexCheck}
+          renderItem={({ item, index }) => (
+            <Pressable
+              onPress={() => {
+                setIndexCheck(item.id);
+                scrollViewRef.current.scrollTo({
+                  y: products.findIndex((p) => p.id === item.id) * ITEM_HEIGHT,
+                  animated: true,
+                });
+              }}
+            >
+              <View
+                style={
+                  indexCheck === item.id
+                    ? { ...styles.smallCardSelected }
+                    : { ...styles.smallCard }
+                }
               >
-                <View
-                  style={
-                    indexCheck === item.id
-                      ? { ...styles.smallCardSelected }
-                      : { ...styles.smallCard }
-                  }
-                >
-                  <Image
-                    style={{ height: 60, weight: 60, borderRadius: 30 }}
-                    source={item.image}
-                  />
-
-                  <View>
-                    <Text
-                      style={
-                        indexCheck === item.id
-                          ? { ...styles.smallCardTextSelected }
-                          : { ...styles.smallCardText }
-                      }
-                    >
-                      {item.name}
-                    </Text>
-                  </View>
+                <View>
+                  <Text
+                    style={
+                      indexCheck === item.id
+                        ? { ...styles.smallCardTextSelected }
+                        : { ...styles.smallCardText }
+                    }
+                  >
+                    {item.name}
+                  </Text>
                 </View>
-              </Pressable>
-            )}
-          />
-        </View>
+              </View>
+            </Pressable>
+          )}
+        />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
         <View
           style={{
             justifyContent: "center",
@@ -104,17 +99,6 @@ export default function HomeScreen({ navigation }) {
           ))}
         </View>
       </ScrollView>
-
-      <View style={styles.floatButton}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("AboutUsScreen");
-          }}
-        >
-          <Icon name="place" type="material" size={32} color={colors.main} />
-          <Text style={colors.grey2}>Map</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -137,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     width: 110,
-    height: 110,
+    height: 50,
     margin: 10,
   },
   smallCardSelected: {
@@ -147,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     width: 110,
-    height: 110,
+    height: 50,
     margin: 10,
   },
   smallCardTextSelected: {
@@ -159,16 +143,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.grey2,
     textAlign: "center",
-  },
-  floatButton: {
-    position: "absolute",
-    bottom: 10,
-    right: 15,
-    backgroundColor: "white",
-    elevation: 10,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: "center",
   },
 });

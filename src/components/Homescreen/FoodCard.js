@@ -1,14 +1,18 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import Button from "../components/Button";
-import { colors } from "../global/styles";
+import Button from "../Button";
+import { colors } from "../../global/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, decrementQty, incrementQty } from "../reducers/CartReducer";
+import {
+  addToCart,
+  decrementQty,
+  incrementQty,
+} from "../../reducers/CartReducer";
 import {
   incrementQuantity,
   decrementQuantity,
-} from "../reducers/ProductReducer";
+} from "../../reducers/ProductReducer";
 import { Pressable } from "react-native";
 
 export default function FoodCard({ item, screenWidth }) {
@@ -18,6 +22,8 @@ export default function FoodCard({ item, screenWidth }) {
     dispatch(addToCart(item));
     dispatch(incrementQuantity(item));
   };
+
+  const totalPrice = item.price * item.quantity;
 
   return (
     <View style={{ ...styles.card, width: screenWidth }}>
@@ -33,7 +39,11 @@ export default function FoodCard({ item, screenWidth }) {
 
       <View style={styles.footer}>
         <View style={styles.price}>
-          <Text style={styles.priceText}>{item.price} ₴</Text>
+          {item.quantity === 0 ? (
+            <Text style={styles.priceText}>{item.price} ₴</Text>
+          ) : (
+            <Text style={styles.priceText}>{totalPrice} ₴</Text>
+          )}
         </View>
 
         {cart.some((value) => value.id === item.id) ? (
@@ -89,12 +99,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingHorizontal: 15,
     paddingVertical: 20,
+    height: 440,
   },
   image: {
     marginHorizontal: 10,
     borderRadius: 5,
     height: 235,
     width: "100%",
+    resizeMode: "contain",
   },
   name: {
     fontSize: 18,
