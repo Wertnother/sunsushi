@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { colors, parameters } from "../global/styles";
+import { colors, parameters } from "../../global/styles";
 
 export default function HomeHeader({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);

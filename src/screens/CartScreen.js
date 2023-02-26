@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { decrementQty, incrementQty } from "../reducers/CartReducer";
 import {
   decrementQuantity,
-  getProducts,
   incrementQuantity,
 } from "../reducers/ProductReducer";
 import { colors } from "../global/styles";
 import Header from "../components/Header";
+import { ScrollView } from "react-native";
+import Button from "../components/Button";
 
 export default function Cart({ navigation }) {
   const cart = useSelector((state) => state.cart.cart);
@@ -66,13 +67,21 @@ export default function Cart({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header title={"Кошик"} navigation={navigation} />
-      <View>{cart.map(renderCartItem)}</View>
-      <View style={styles.totalAmountContainer}>
-        <Text style={styles.totalAmountText}>
-          Загальна сума: {totalAmount} ₴
-        </Text>
-      </View>
+      <Header
+        title={"Кошик"}
+        navigation={navigation}
+        type={"arrow-back-outline"}
+      />
+      <ScrollView>
+        <View>{cart.map(renderCartItem)}</View>
+
+        <View style={styles.totalAmountContainer}>
+          <Text style={styles.totalAmountText}>
+            Загальна сума: {totalAmount} ₴
+          </Text>
+          <Button title="Замовити" onPress={() => console.log(cart)} />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -145,7 +154,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   totalAmountContainer: {
-    position: "absolute",
     bottom: 10,
     width: "95%",
     justifyContent: "flex-end",
