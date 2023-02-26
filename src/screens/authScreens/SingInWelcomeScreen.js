@@ -13,7 +13,7 @@ export default function SingInWelcomeScreen({ navigation }) {
       </View>
 
       <View style={styles.slides}>
-        <Swiper autoplay={true}>
+        {/* <Swiper autoplay={true}>
           <View style={styles.slide1}>
             <Image
               source={{
@@ -40,7 +40,11 @@ export default function SingInWelcomeScreen({ navigation }) {
               style={styles.imageStyles}
             />
           </View>
-        </Swiper>
+        </Swiper> */}
+        <Image
+          source={require("../../assets/sun_sushi_-20230226-0001.jpg")}
+          style={styles.imageStyles}
+        />
       </View>
 
       <View
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sloganView: {
-    flex: 3,
+    flex: 2,
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: 20,
@@ -93,7 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   slides: {
-    flex: 4,
+    flex: 12,
     justifyContent: "center",
   },
   slide1: {
@@ -114,5 +118,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#92BBd9",
   },
-  imageStyles: { height: "100%", width: "100%" },
+  imageStyles: { resizeMode: "contain", width: "100%" },
 });

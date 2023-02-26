@@ -74,14 +74,13 @@ export default function Cart({ navigation }) {
       />
       <ScrollView>
         <View>{cart.map(renderCartItem)}</View>
-
-        <View style={styles.totalAmountContainer}>
-          <Text style={styles.totalAmountText}>
-            Загальна сума: {totalAmount} ₴
-          </Text>
-          <Button title="Замовити" onPress={() => console.log(cart)} />
-        </View>
       </ScrollView>
+      <View style={styles.totalAmountContainer}>
+        <Text style={styles.totalAmountText}>
+          Загальна сума: {totalAmount} ₴
+        </Text>
+        <Button title="Замовити" onPress={() => console.log(cart)} />
+      </View>
     </View>
   );
 }
@@ -156,8 +155,9 @@ const styles = StyleSheet.create({
   totalAmountContainer: {
     bottom: 10,
     width: "95%",
-    justifyContent: "flex-end",
+    alignContent: "flex-end",
     marginHorizontal: 10,
+    marginTop: 20,
     padding: 10,
     borderWidth: 1,
     borderRadius: 15,
