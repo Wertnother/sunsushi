@@ -285,3 +285,24 @@ export const filterData = [
 // },
 // { name: "Напої", image: require("../assets/drinks.png"), id: 8 },
 // { name: "Футомакі", image: require("../assets/futomaki.png"), id: 9 },
+
+export const banersData = [
+  {
+    name: "Baner 1",
+  },
+  {
+    name: "Baner 2",
+  },
+  {
+    name: "Baner 3",
+  },
+];
+
+export const packet = {
+  name: "Пакет",
+  price: 3,
+  image:
+    "https://cabareservice.od.ua/wp-content/uploads/2022/08/belaya-600x600-1.jpg",
+  id: 999,
+  quantity: 0,
+};

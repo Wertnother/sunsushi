@@ -135,16 +135,16 @@ const styles = StyleSheet.create({
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     backgroundColor: colors.main,
     borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
     width: 120,
+    padding: 5,
   },
   quantityButton: {
     fontSize: 25,
     color: "white",
+    paddingHorizontal: 20,
   },
   quantityText: {
     fontSize: 20,

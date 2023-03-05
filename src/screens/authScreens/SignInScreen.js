@@ -35,7 +35,7 @@ export default function SignInScreen({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        navigation.navigate("DrawerNavigator");
+        navigation.navigate("ClientTabs");
       })
       .catch((error) => {
         console.log(error);

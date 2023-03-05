@@ -1,0 +1,184 @@
+[
+  {
+    "name": "Суші та Роли",
+    "id": 0,
+    "category": [
+      {
+        "name": "Філадельфія лосось",
+        "ingredients": "Рис, норі, лосось, вершковий сир, огірок 250г. 8шт.",
+        "price": 140,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671746236120.jpg",
+        "id": 0,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія манго лосось",
+        "ingredients": "Рис, норі, лосось, вершковий сир, манго 250 гр. 8 шт.",
+        "price": 169,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671714905623.jpg",
+        "id": 1,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія лосось ніжний",
+        "ingredients": "Рис, норі, лосось, вершковий сир, соус манго (зверху) 250 гр. 8 шт. ",
+        "price": 155,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671715160950.jpg",
+        "id": 2,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія гриль лосось ",
+        "ingredients": "Рис, норі, лосось, вершковий сир, огірок, соус (на верх) 250 гр. 8 шт. ",
+        "price": 159,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671715536712.jpg",
+        "id": 3,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія Вугор",
+        "ingredients": "Рис, норі, вугор, вершковий сир, огірок 250г. 8шт.",
+        "price": 165,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1659544644894.jpg",
+        "id": 4,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія Креветка",
+        "ingredients": "Рис, норі, креветка, вершковий сир, огірок 250г. 8шт",
+        "price": 150,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1660562111442.jpg",
+        "id": 5,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія тунець",
+        "ingredients": "Рис, норі, тунець, вершковий сир, огірок , соус 250 гр. 8 шт. ",
+        "price": 169,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671716556977.jpg",
+        "id": 6,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія Копчений лосось",
+        "ingredients": "Рис, норі, копчений лосось, вершковий сир, огірок 250г. 8шт.",
+        "price": 160,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658055358595.jpg",
+        "id": 7,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія мікс",
+        "ingredients": "Рис, норі, лосось, вугор, вершковий сир, огірок 250г. 8шт.",
+        "price": 165,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671746691263.jpg",
+        "id": 8,
+        "quantity": 0
+      },
+      {
+        "name": "Філадельфія некст",
+        "ingredients": "Рис, норі, креветка, тунець, вершковий сир, огірок 250 гр. 8 шт.",
+        "price": 175,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1671717248782.jpg",
+        "id": 9,
+        "quantity": 0
+      },
+      {
+        "name": " Каліфорнія в кунжуті з лососем",
+        "ingredients": "Рис, норі, лосось, японський майонез, авокадо, огірок, кунжут смажений. 250 г. 8 шт.",
+        "price": 95,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658509197627.png",
+        "id": 10,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в кунжуті з вугрем",
+        "ingredients": "Рис, норі, вугор, японський майонез, авокадо, огірок, кунжут смажений. 250 г. 8 шт.",
+        "price": 120,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658512501894.jpg",
+        "id": 11,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в кунжуті з копченим лососем",
+        "ingredients": "Рис, норі, копчений лосось, японський майонез, авокадо, огірок, кунжут смажений. 250 г. 8 шт.",
+        "price": 110,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658510334546.jpg",
+        "id": 12,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в кунжуті з крабом",
+        "ingredients": "Рис, норі, краб сурімі, японський майонез, авокадо, огірок, кунжут смажений. 250 г. 8 шт.",
+        "price": 90,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658504691074.jpg",
+        "id": 13,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в кунжуті з креветкою",
+        "ingredients": "Рис, норі, королівська креветка, японський майонез, авокадо, огірок, кунжут смажений. 250 г. 8 шт.",
+        "price": 110,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658515748124.jpg",
+        "id": 14,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в кунжуті з тунцем",
+        "ingredients": "Рис, норі, тунець, японський майонез, авокадо, огірок, кунжут смажений. 250 г. 8 шт.",
+        "price": 115,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658505920463.jpg",
+        "id": 15,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в ікрі з лососем",
+        "ingredients": "Рис, норі, лосось, японський майонез, авокадо, ікра масаго, огірок, 250г. 8ш",
+        "price": 105,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658501649988.jpg",
+        "id": 16,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в ікрі з вугрем",
+        "ingredients": "Рис, норі, вугор, японський майонез, авокадо, ікра масаго, огірок, 250г. 8ш",
+        "price": 130,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1659563401407.jpeg",
+        "id": 17,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в ікрі з креветкою",
+        "ingredients": "Рис, норі, креветка, японський майонез, авокадо, ікра масаго, огірок, 250г. 8ш",
+        "price": 120,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658408801319.jpg",
+        "id": 18,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в ікрі з крабом сурімі",
+        "ingredients": "Рис, норі, краб сурімі, японський майонез, авокадо, ікра масаго, огірок, 250г. 8шт.",
+        "price": 100,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi%20/1664466519215.jpg",
+        "id": 19,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в ікрі з тунцем",
+        "ingredients": "Рис, норі, тунець, японський майонез, авокадо, ікра масаго, огірок, 250г. 8шт.",
+        "price": 115,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658407472827.jpg",
+        "id": 20,
+        "quantity": 0
+      },
+      {
+        "name": "Каліфорнія в ікрі з копченим лососем ",
+        "ingredients": "Рис, норі, копчений лосось, японський майонез, авокадо, ікра масаго, огірок, 250г. 8 шт.",
+        "price": 130,
+        "image": "https://e-admin.com.ua/photo/photo/uploads/sunsushi/1658501975909.jpg",
+        "id": 21,
+        "quantity": 0
+      }
+    ]
+  }
+]
