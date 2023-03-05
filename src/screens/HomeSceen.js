@@ -1,101 +1,81 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
-  Text,
   StyleSheet,
-  FlatList,
-  Pressable,
   ScrollView,
   Dimensions,
+  Animated,
 } from "react-native";
 import HomeHeader from "../components/Homescreen/HomeHeader";
-import { colors } from "../global/styles";
 import { filterData } from "../global/Data";
 import FoodCard from "../components/Homescreen/FoodCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts, clearProducts } from "../reducers/ProductReducer";
+import { getProducts } from "../reducers/ProductReducer";
+import MenuFlatList from "../components/Homescreen/MenuFlatList";
+import { BanerList } from "../components/Homescreen/BanerList";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const ITEM_HEIGHT = 460;
 
 export default function HomeScreen({ navigation }) {
-  const [indexCheck, setIndexCheck] = useState("0");
+  const [indexCheck, setIndexCheck] = useState(0);
   const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
   const scrollViewRef = useRef(null);
+  const [isBanerListVisible, setIsBanerListVisible] = useState(true);
 
   useEffect(() => {
     if (products.length > 0) return;
 
     const fetchProducts = () => {
-      filterData.map((item) =>
-        item.category.map((image) => dispatch(getProducts(image)))
+      filterData.forEach((item) =>
+        item.category.forEach((image) => dispatch(getProducts(image)))
       );
     };
     fetchProducts();
   }, []);
 
+  const MemoizedFoodCard = React.memo(
+    ({ item }) => <FoodCard item={item} screenWidth={SCREEN_WIDTH * 0.9} />,
+    (prevProps, nextProps) => {
+      // Only re-render when item props has changed
+      return prevProps.item.id === nextProps.item.id;
+    }
+  );
+
   return (
     <View style={styles.container}>
       <HomeHeader navigation={navigation} />
 
-      <View style={styles.headerTextView}>
-        <Text style={styles.headerText}>Меню</Text>
-      </View>
+      {isBanerListVisible && (
+        <View>
+          <BanerList />
+        </View>
+      )}
 
       <View>
-        <FlatList
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          data={filterData}
-          keyExtractor={(item) => item.id}
-          extraData={indexCheck}
-          renderItem={({ item, index }) => (
-            <Pressable
-              onPress={() => {
-                setIndexCheck(item.id);
-                scrollViewRef.current.scrollTo({
-                  y: products.findIndex((p) => p.id === item.id) * ITEM_HEIGHT,
-                  animated: true,
-                });
-              }}
-            >
-              <View
-                style={
-                  indexCheck === item.id
-                    ? { ...styles.smallCardSelected }
-                    : { ...styles.smallCard }
-                }
-              >
-                <View>
-                  <Text
-                    style={
-                      indexCheck === item.id
-                        ? { ...styles.smallCardTextSelected }
-                        : { ...styles.smallCardText }
-                    }
-                  >
-                    {item.name}
-                  </Text>
-                </View>
-              </View>
-            </Pressable>
-          )}
+        <MenuFlatList
+          filterData={filterData}
+          products={products}
+          setIndexCheck={setIndexCheck}
+          scrollViewRef={scrollViewRef}
         />
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {products.map((item, index) => (
-            <FoodCard
-              item={item}
-              key={index}
-              screenWidth={SCREEN_WIDTH * 0.9}
-            />
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
+        onScroll={(event) => {
+          const offsetY = event.nativeEvent.contentOffset.y;
+          if (offsetY > 0 && isBanerListVisible) {
+            setIsBanerListVisible(false);
+          } else if (offsetY === 0 && !isBanerListVisible) {
+            setIsBanerListVisible(true);
+          }
+        }}
+      >
+        <View style={styles.itemContainer}>
+          {products.map((item) => (
+            <MemoizedFoodCard key={item.id} item={item} />
           ))}
         </View>
       </ScrollView>
@@ -107,41 +87,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  headerText: {
-    color: colors.grey1,
-    fontSize: 22,
-    fontWeight: "bold",
-    paddingLeft: 10,
-  },
-  headerTextView: { backgroundColor: colors.grey5, paddingVertical: 3 },
-  smallCard: {
-    borderRadius: 30,
-    backgroundColor: colors.grey5,
+  itemContainer: {
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    width: 110,
-    height: 50,
-    margin: 10,
-  },
-  smallCardSelected: {
-    borderRadius: 30,
-    backgroundColor: colors.main,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    width: 110,
-    height: 50,
-    margin: 10,
-  },
-  smallCardTextSelected: {
-    fontWeight: "bold",
-    color: colors.cardbackground,
-    textAlign: "center",
-  },
-  smallCardText: {
-    fontWeight: "bold",
-    color: colors.grey2,
-    textAlign: "center",
   },
 });

@@ -50,7 +50,7 @@ export default function HomeHeader({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={handleDrawerToggle}
         style={styles.iconContainer}
       >
@@ -59,9 +59,17 @@ export default function HomeHeader({ navigation }) {
           size={32}
           color={colors.cardbackground}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <Text style={styles.title}>SUNSUSHI</Text>
+
+      <TouchableOpacity style={styles.iconContainer} onPress={() => {}}>
+        <MaterialCommunityIcons
+          name="map-marker"
+          size={32}
+          color={colors.cardbackground}
+        />
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.iconContainer}
@@ -98,12 +106,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
+    flex: 12,
     color: colors.cardbackground,
     fontSize: 25,
     fontWeight: "bold",
+    paddingLeft: 15,
   },
   iconContainer: {
-    paddingHorizontal: 15,
+    flex: 2,
+    paddingRight: 0,
+    justifyContent: "flex-end",
   },
   centeredView: {
     flex: 1,
