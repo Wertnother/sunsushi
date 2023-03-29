@@ -289,6 +289,7 @@ export const filterData = [
 export const banersData = [
   {
     name: "Baner 1",
+    video: "http://sunsushi.com.ua/static/media/desctop.000efb34.mp4",
   },
   {
     name: "Baner 2",

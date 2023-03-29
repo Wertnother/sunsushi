@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -6,10 +6,9 @@ import {
   TextInput,
   Pressable,
   Alert,
-  TouchableOpacity,
 } from "react-native";
 import Header from "../../components/Header";
-import { colors, parameters, title } from "../../global/styles";
+import { colors, title } from "../../global/styles";
 import {
   Ionicons,
   MaterialIcons,
@@ -17,30 +16,15 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import Button from "../../components/Button";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../../../firebase-config";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function SignInScreen({ navigation }) {
   const textInput1 = useRef(1);
   const textInput2 = useRef(2);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const { login } = useContext(AuthContext);
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        navigation.navigate("ClientTabs");
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(error.message);
-      });
+    login();
   };
 
   return (
@@ -75,7 +59,6 @@ export default function SignInScreen({ navigation }) {
             style={{ width: "90%" }}
             placeholder="Email"
             ref={textInput1}
-            onChangeText={(text) => setEmail(text)}
           />
         </View>
 
@@ -91,7 +74,6 @@ export default function SignInScreen({ navigation }) {
             style={{ width: "80%" }}
             placeholder="Password"
             ref={textInput2}
-            onChangeText={(text) => setPassword(text)}
           />
           <View style={{ marginRight: 10 }}>
             <MaterialIcons
