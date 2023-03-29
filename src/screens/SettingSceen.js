@@ -3,19 +3,38 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
   ScrollView,
   Linking,
 } from "react-native";
-import Header from "../components/Header";
 import { colors } from "../global/styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome";
+import firebase from "firebase/compat/app";
 
 const SettingsScreen = ({ navigation }) => {
   const [language, setLanguage] = useState("uk");
+  const [userName, setUserName] = useState("");
   const email = "support@example.com";
+
+  const user = firebase.auth().currentUser;
+  if (user) {
+    const uid = user.uid;
+    const userName = firebase
+      .firestore()
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          setUserName(userData.name);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user data: ", error);
+      });
+  }
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
@@ -35,21 +54,26 @@ const SettingsScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* <Header
-        title={"Налаштування"}
-        navigation={navigation}
-        type={"arrow-back-outline"}
-      /> */}
-
       <View style={styles.header}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: "https://via.placeholder.com/50" }}
+        <MaterialCommunityIcons
+          name="account"
+          size={26}
+          color={colors.cardbackground}
         />
-        <Text style={styles.name}>John Doe</Text>
+
+        <Text style={styles.name}>{userName}</Text>
+
+        <MaterialCommunityIcons
+          name="chevron-right-circle-outline"
+          size={24}
+          color={colors.cardbackground}
+          onPress={() => {
+            navigation.navigate("EditAccountScreen");
+          }}
+        />
       </View>
 
-      <View style={styles.headerTextView}>
+      {/* <View style={styles.headerTextView}>
         <Text style={styles.headerText}>Вибір мови</Text>
       </View>
 
@@ -68,7 +92,7 @@ const SettingsScreen = ({ navigation }) => {
           <Text style={styles.optionText}>English</Text>
           {language === "en" && <Text style={styles.checkmark}>✔</Text>}
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View style={styles.headerTextView}>
         <Text style={styles.headerText}>Основна інформація</Text>
@@ -149,21 +173,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    alignContent: "space-between",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 10,
+    padding: 10,
     backgroundColor: colors.main,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 75,
-    marginHorizontal: 20,
   },
   name: {
     fontSize: 24,
     fontWeight: "bold",
     color: colors.cardbackground,
+    paddingLeft: 10,
   },
   headerText: {
     color: colors.grey1,
