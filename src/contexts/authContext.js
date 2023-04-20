@@ -1,17 +1,19 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [userToken, setUserToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const userId = "8ba790f3-5acd-4a08-bc6a-97a36c124f29";
+const initialUserToken = null;
 
-  const login = async () => {
+export const AuthProvider = ({ children }) => {
+  const [userToken, setUserToken] = useState(initialUserToken);
+
+  const login = async (userId) => {
     try {
-      await AsyncStorage.setItem("userToken", userId);
-      setUserToken(userId);
+      if (AsyncStorage) {
+        await AsyncStorage.setItem("userToken", userId);
+        setUserToken(userId);
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -19,8 +21,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem("userToken");
-      setUserToken(null);
+      if (AsyncStorage) {
+        await AsyncStorage.removeItem("userToken");
+        setUserToken(initialUserToken);
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -28,27 +32,22 @@ export const AuthProvider = ({ children }) => {
 
   const getUserToken = async () => {
     try {
-      const userToken = await AsyncStorage.getItem("userToken");
-      if (userToken) {
-        setUserToken(userToken);
-      } else {
-        setUserToken(null);
+      if (AsyncStorage) {
+        const storedToken = await AsyncStorage.getItem("userToken");
+        if (storedToken) {
+          setUserToken(storedToken);
+        } else {
+          setUserToken(initialUserToken);
+        }
       }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
   useEffect(() => {
     getUserToken();
   }, []);
-
-  if (loading) {
-    // render spinner
-    return null;
-  }
 
   return (
     <AuthContext.Provider value={{ login, logout, userToken }}>

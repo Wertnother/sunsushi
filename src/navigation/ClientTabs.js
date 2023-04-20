@@ -6,6 +6,7 @@ import Shares from "../screens/Shares";
 import CartScreen from "../screens/CartScreen";
 import SettingScreen from "../screens/SettingSceen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Header from "../components/Header";
 
 const ClientsTabs = createBottomTabNavigator();
 
@@ -33,6 +34,7 @@ export default function RootClientTabs() {
         name="Shares"
         component={Shares}
         options={{
+          header: ({ navigation }) => <Header navigation={navigation} />,
           tabBarLabel: "Акції",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="sale" size={size} color={color} />

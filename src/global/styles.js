@@ -8,7 +8,7 @@ export const colors = {
   CardComment: "#86939e",
   cardbackground: "white",
   statusbar: "#da251c",
-  headerText: "white",
+  headerText: "black",
 };
 
 export const parameters = {
@@ -23,6 +23,7 @@ export const parameters = {
     elevation: 3,
     backgroundColor: "#da251c",
     borderColor: "#da251c",
+    borderWidth: 0,
   },
 
   mainButtonTitleStyle: {

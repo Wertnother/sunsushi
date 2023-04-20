@@ -21,10 +21,18 @@ export default function Header({ title, type, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.main,
+    backgroundColor: colors.cardbackground,
     height: parameters.headerHeight,
     paddingLeft: 5,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
   },
   title: {
     color: colors.headerText,

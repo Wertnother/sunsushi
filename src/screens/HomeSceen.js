@@ -4,24 +4,39 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  Animated,
+  FlatList,
+  Pressable,
+  Text,
 } from "react-native";
 import HomeHeader from "../components/Homescreen/HomeHeader";
 import { filterData } from "../global/Data";
 import FoodCard from "../components/Homescreen/FoodCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../reducers/ProductReducer";
-import MenuFlatList from "../components/Homescreen/MenuFlatList";
+// import MenuFlatList from "../components/Homescreen/MenuFlatList";
 import { BanerList } from "../components/Homescreen/BanerList";
+import { colors } from "../global/styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+const ITEM_HEIGHT = 191;
 
 export default function HomeScreen({ navigation }) {
   const [indexCheck, setIndexCheck] = useState(0);
   const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
   const scrollViewRef = useRef(null);
+  const flatListRef = useRef(null);
   const [isBanerListVisible, setIsBanerListVisible] = useState(true);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
+
+  const handleScroll = (event) => {
+    const yOffset = event.nativeEvent.contentOffset.y;
+    const visibleIndex = Math.floor(yOffset / ITEM_HEIGHT);
+    const visibleItem = products[visibleIndex];
+    if (selectedItemIndex === -1 || selectedItemIndex !== visibleIndex) {
+      setIndexCheck(visibleItem.id);
+    }
+  };
 
   useEffect(() => {
     if (products.length > 0) return;
@@ -35,22 +50,64 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   const MemoizedFoodCard = React.memo(
-    ({ item }) => <FoodCard item={item} screenWidth={SCREEN_WIDTH * 0.9} />,
+    ({ item }) => <FoodCard item={item} />,
     (prevProps, nextProps) => {
       // Only re-render when item props has changed
       return prevProps.item.id === nextProps.item.id;
     }
   );
 
+  const MenuFlatList = () => {
+    const handlePress = (item) => {
+      if (selectedItemIndex !== item.id) {
+        setSelectedItemIndex(item.id);
+        setIndexCheck(item.id);
+        scrollViewRef.current.scrollTo({
+          y: products.findIndex((p) => p.id === item.id) * ITEM_HEIGHT,
+          animated: true,
+          viewPosition: 0.5,
+        });
+      }
+    };
+
+    return (
+      <FlatList
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        data={filterData}
+        keyExtractor={(item) => item.id}
+        ref={flatListRef}
+        extraData={indexCheck}
+        renderItem={({ item, index }) => (
+          <Pressable onPress={() => handlePress(item)}>
+            <View
+              style={
+                indexCheck === item.id
+                  ? { ...styles.smallCardSelected }
+                  : { ...styles.smallCard }
+              }
+            >
+              <View>
+                <Text
+                  style={
+                    indexCheck === item.id
+                      ? { ...styles.smallCardTextSelected }
+                      : { ...styles.smallCardText }
+                  }
+                >
+                  {item.name}
+                </Text>
+              </View>
+            </View>
+          </Pressable>
+        )}
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <HomeHeader navigation={navigation} />
-
-      {isBanerListVisible && (
-        <View>
-          <BanerList />
-        </View>
-      )}
 
       <View>
         <MenuFlatList
@@ -62,20 +119,17 @@ export default function HomeScreen({ navigation }) {
       </View>
 
       <ScrollView
+        style={styles.itemContainer}
         showsVerticalScrollIndicator={false}
         ref={scrollViewRef}
-        onScroll={(event) => {
-          const offsetY = event.nativeEvent.contentOffset.y;
-          if (offsetY > 0 && isBanerListVisible) {
-            setIsBanerListVisible(false);
-          } else if (offsetY === 0 && !isBanerListVisible) {
-            setIsBanerListVisible(true);
-          }
-        }}
+        onScroll={handleScroll}
       >
         <View style={styles.itemContainer}>
-          {products.map((item) => (
-            <MemoizedFoodCard key={item.id} item={item} />
+          {products.map((item, index) => (
+            <React.Fragment key={item.id}>
+              <MemoizedFoodCard item={item} />
+              {index !== products.length - 1 && <View style={styles.divider} />}
+            </React.Fragment>
           ))}
         </View>
       </ScrollView>
@@ -86,9 +140,40 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
-  itemContainer: {
+  itemContainer: { width: SCREEN_WIDTH * 0.95, alignSelf: "center" },
+  divider: {
+    height: 1,
+    width: "100%",
+    backgroundColor: colors.grey4,
+  },
+  smallCard: {
+    borderRadius: 30,
+    backgroundColor: colors.grey5,
     justifyContent: "center",
     alignItems: "center",
+    padding: 10,
+    height: 40,
+    margin: 10,
+  },
+  smallCardSelected: {
+    borderRadius: 30,
+    backgroundColor: colors.main,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    height: 40,
+    marginVertical: 10,
+  },
+  smallCardTextSelected: {
+    fontWeight: "bold",
+    color: colors.cardbackground,
+    textAlign: "center",
+  },
+  smallCardText: {
+    fontWeight: "bold",
+    color: colors.grey2,
+    textAlign: "center",
   },
 });

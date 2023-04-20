@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FlatList, Pressable, Text, View, StyleSheet } from "react-native";
 import { colors } from "../../global/styles";
 
-const ITEM_HEIGHT = 460;
+const ITEM_HEIGHT = 191;
 
 const MenuFlatList = ({ filterData, products, scrollViewRef }) => {
   const [indexCheck, setIndexCheck] = useState(0);
@@ -10,7 +10,7 @@ const MenuFlatList = ({ filterData, products, scrollViewRef }) => {
   const handlePress = (item) => {
     setIndexCheck(item.id);
     scrollViewRef.current.scrollTo({
-      y: products.findIndex((p) => p.id === item.id) * ITEM_HEIGHT,
+      y: products.findIndex((p) => p.ind === item.ind) * ITEM_HEIGHT,
       animated: true,
       viewPosition: 0.5,
     });
@@ -56,9 +56,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.grey5,
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    width: 110,
-    height: 50,
+    padding: 10,
+    height: 40,
     margin: 10,
   },
   smallCardSelected: {
@@ -66,10 +65,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.main,
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
-    width: 110,
-    height: 50,
-    margin: 10,
+    padding: 10,
+    height: 40,
+    marginVertical: 10,
   },
   smallCardTextSelected: {
     fontWeight: "bold",

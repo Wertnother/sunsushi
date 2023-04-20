@@ -7,6 +7,7 @@ import {
   Modal,
   Pressable,
   Linking,
+  Image,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -14,9 +15,6 @@ import { colors, parameters } from "../../global/styles";
 
 export default function HomeHeader({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-  const handleDrawerToggle = () => {
-    navigation.toggleDrawer();
-  };
 
   const handlePhonePress = (phoneNumber) => {
     Linking.openURL(phoneNumber);
@@ -50,36 +48,22 @@ export default function HomeHeader({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <TouchableOpacity
-        onPress={handleDrawerToggle}
-        style={styles.iconContainer}
-      >
-        <MaterialCommunityIcons
-          name="menu"
-          size={32}
-          color={colors.cardbackground}
+      <View style={styles.headerLogo}>
+        <Image
+          source={require("../../assets/smallLogo.png")}
+          style={styles.logo}
         />
-      </TouchableOpacity> */}
-
-      <Text style={styles.title}>SUNSUSHI</Text>
+      </View>
 
       <TouchableOpacity style={styles.iconContainer} onPress={() => {}}>
-        <MaterialCommunityIcons
-          name="map-marker"
-          size={32}
-          color={colors.cardbackground}
-        />
+        <MaterialCommunityIcons name="map-marker" size={32} color="black" />
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.iconContainer}
         onPress={() => setModalVisible(true)}
       >
-        <MaterialCommunityIcons
-          name="cellphone"
-          size={32}
-          color={colors.cardbackground}
-        />
+        <MaterialCommunityIcons name="cellphone" size={32} color="black" />
       </TouchableOpacity>
 
       <Modal
@@ -100,21 +84,30 @@ export default function HomeHeader({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: colors.main,
-    height: parameters.headerHeight,
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "white",
+    height: parameters.headerHeight,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
+    paddingHorizontal: 15, // додати горизонтальний відступ для контейнера
   },
-  title: {
-    flex: 12,
-    color: colors.cardbackground,
-    fontSize: 25,
-    fontWeight: "bold",
-    paddingLeft: 15,
+  headerLogo: {
+    flex: 4, // змінити flex на 1, щоб логотип займав 1/3 ширини контейнера
+    height: 50,
+    paddingVertical: 5,
+    paddingRight: 100,
   },
+  logo: { width: "100%", height: 40, resizeMode: "contain" },
   iconContainer: {
-    flex: 2,
-    paddingRight: 0,
+    flex: 1,
+    flexDirection: "row",
     justifyContent: "flex-end",
   },
   centeredView: {
@@ -156,7 +149,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center",
     fontSize: 26,
-    color: "blue",
     textDecorationLine: "underline",
   },
   modalText: {

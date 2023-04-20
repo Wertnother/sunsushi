@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -11,34 +11,34 @@ import { colors } from "../global/styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/FontAwesome";
 import firebase from "firebase/compat/app";
+import "firebase/firestore";
+import { firebaseConfig } from "../../firebase-config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SettingsScreen = ({ navigation }) => {
-  const [language, setLanguage] = useState("uk");
   const [userName, setUserName] = useState("");
   const email = "support@example.com";
 
-  const user = firebase.auth().currentUser;
-  if (user) {
-    const uid = user.uid;
-    const userName = firebase
-      .firestore()
-      .collection("users")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const userData = doc.data();
-          setUserName(userData.name);
+  useEffect(() => {
+    async function fetchUserName() {
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data: ", error);
-      });
-  }
 
-  const handleLanguageChange = (lang) => {
-    setLanguage(lang);
-  };
+        const userId = await AsyncStorage.getItem("userToken");
+
+        const userRef = firebase.firestore().collection("users").doc(userId);
+        const snapshot = await userRef.get();
+
+        const username = snapshot.data().name;
+        setUserName(username);
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    }
+    fetchUserName();
+  }, []);
 
   const handleContactUs = () => {
     Linking.openURL(`mailto:${email}`);
@@ -54,11 +54,16 @@ const SettingsScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
+      <TouchableOpacity
+        style={styles.header}
+        onPress={() => {
+          navigation.navigate("EditAccountScreen");
+        }}
+      >
         <MaterialCommunityIcons
           name="account"
           size={26}
-          color={colors.cardbackground}
+          color={colors.headerText}
         />
 
         <Text style={styles.name}>{userName}</Text>
@@ -66,33 +71,9 @@ const SettingsScreen = ({ navigation }) => {
         <MaterialCommunityIcons
           name="chevron-right-circle-outline"
           size={24}
-          color={colors.cardbackground}
-          onPress={() => {
-            navigation.navigate("EditAccountScreen");
-          }}
+          color={colors.headerText}
         />
-      </View>
-
-      {/* <View style={styles.headerTextView}>
-        <Text style={styles.headerText}>Вибір мови</Text>
-      </View>
-
-      <View style={styles.section}>
-        <TouchableOpacity
-          style={styles.option}
-          onPress={() => handleLanguageChange("uk")}
-        >
-          <Text style={styles.optionText}>Українська</Text>
-          {language === "uk" && <Text style={styles.checkmark}>✔</Text>}
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.option}
-          onPress={() => handleLanguageChange("en")}
-        >
-          <Text style={styles.optionText}>English</Text>
-          {language === "en" && <Text style={styles.checkmark}>✔</Text>}
-        </TouchableOpacity>
-      </View> */}
+      </TouchableOpacity>
 
       <View style={styles.headerTextView}>
         <Text style={styles.headerText}>Основна інформація</Text>
@@ -118,7 +99,10 @@ const SettingsScreen = ({ navigation }) => {
             color={colors.grey2}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          // onPress={navigation.navigate("NotificationsScreen")}
+        >
           <Text style={styles.optionText}>Повідомлення</Text>
           <MaterialCommunityIcons
             name="chevron-right-circle-outline"
@@ -176,12 +160,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
-    backgroundColor: colors.main,
+    backgroundColor: colors.cardbackground,
   },
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    color: colors.cardbackground,
+    color: colors.headerText,
     paddingLeft: 10,
   },
   headerText: {

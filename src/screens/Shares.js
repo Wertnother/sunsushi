@@ -1,14 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import Header from "../components/Header";
 
-Shares.navigationsOtions = {
-  headerShown: false,
-};
-
-export default function Shares({ navigations }) {
+export default function Shares({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Shares</Text>
+    <View>
+      <Header
+        title="Ваш заголовок"
+        type="ios-arrow-back"
+        navigation={navigation}
+      />
+      <Text>Здесь ваше содержимое экрана</Text>
     </View>
   );
 }
+
+Shares.options = {
+  header: ({ navigation }) => (
+    <Header
+      title="Ваш заголовок"
+      type="ios-arrow-back"
+      navigation={navigation}
+    />
+  ),
+};

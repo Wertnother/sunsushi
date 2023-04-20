@@ -4,6 +4,8 @@ import Button from "../components/Button";
 import { colors } from "../global/styles";
 import { OutlinedTextField } from "rn-material-ui-textfield";
 import firebase from "firebase/compat/app";
+import { firebaseConfig } from "../../firebase-config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignInForm() {
   const [name, setName] = useState("");
@@ -11,26 +13,44 @@ export default function SignInForm() {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const user = firebase.auth().currentUser;
-    if (user) {
-      const uid = user.uid;
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(uid)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            const userData = doc.data();
-            setName(userData.name);
-            setCity(userData.city);
-            setEmail(userData.email);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching user data: ", error);
-        });
+    async function fetchUserName() {
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+
+        const userId = await AsyncStorage.getItem("userToken");
+
+        const userRef = firebase.firestore().collection("users").doc(userId);
+        const snapshot = await userRef.get();
+
+        setName(snapshot.data().name);
+        setCity(snapshot.data().city);
+        setEmail(snapshot.data().email);
+      } catch (error) {
+        let errorMessage = "";
+        switch (error.code) {
+          case "storage/unknown":
+            errorMessage =
+              "Сталася невідома помилка. Будь ласка, спробуйте ще раз.";
+            break;
+          case "firestore/unavailable":
+            errorMessage =
+              "Сервер Firebase Firestore недоступний. Будь ласка, спробуйте пізніше.";
+            break;
+          case "firestore/cancelled":
+            errorMessage =
+              "Операція була скасована. Будь ласка, спробуйте ще раз.";
+            break;
+          default:
+            errorMessage = "Сталася помилка. Будь ласка, спробуйте ще раз.";
+            break;
+        }
+        alert(errorMessage);
+        console.error("Error fetching username:", error);
+      }
     }
+    fetchUserName();
   }, []);
 
   const handleNameChange = (text) => {
