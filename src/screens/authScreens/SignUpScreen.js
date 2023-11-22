@@ -8,7 +8,7 @@ const SignUpScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Header
-        title="МІЙ АККАУНТ"
+        title="Редагувати профіль"
         type="arrow-back-outline"
         navigation={navigation}
       />
